@@ -1,0 +1,16 @@
+1)  npx create-react-app 설치폴더명
+
+2) react 설치가 안될경우
+npm install -g npm@9.8.1
+
+3) 설치 후 src에서 index.js와 App.js를 제외하고 모두 삭제
+
+4) 부트스트랩 설치
+npm install bootstrap
+npm install react-bootstrap
+
+5) 라우터 설치
+npm i -D react-router-dom
+
+
+※ vscode에서 powershell일 때 잘 안될 수 있으니 cmd모드로 터미널 사용하기.ㅞ
