@@ -1,0 +1,54 @@
+리액트 시작하기
+- node 설치 -> 리액트를 시작하려면 node가 있어야함. 리액트가 node 기반?
+- npx create-react-app client 리액트 설치 명령어(client가 이름인가 보다)
+	- 기존에 있어서 뭐라고 나올 경우 경로 이름을 변경해서 다시 설치
+	  ex) npx create-react-app HeyJung
+	
+	- 설치하다가 에러 날 경우 update시켜주기
+	  npm install -g npm@9.8.1 => udate 명령어
+	
+	- 설치 경로 찾아가기
+	  지금 같은 경우는 c드라이브 user에 client라는 폴더에서 리액트 실행
+	  npm start
+	  근데 그냥 처음 부터 내가 원하는 경로에 설치하자.
+
+- vscode에서 terminal 열기 => ctrl + shift + `
+- vscode에서 powershell일 때 잘 안될 수 있으니 cmd모드로 터미널 사용하기.
+- public 안 index.html <div id="root"></div> 이 root안에서 react를 불러오는 것?
+- src 폴더에 app.js, index.js 두 개만 필요함?
+
+- 부트스트랩 설치
+  npm install bootstrap
+  npm install react-bootstrap
+
+- 라우터 설치
+  npm i -D react-router-dom
+
+
+index에서 web을 불러오는 방법과 index자체에서 쓰는 방법 두 가지가 있음.
+
+※ vscode에서 powershell일 때 잘 안될 수 있으니 cmd모드로 터미널 사용하기.
+
+
+
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+// 라우팅 설치 후 사용하는 모듈 임포트
+
+component , usestate , hook(사용하는 것만 움직이게 하는 것)?
+a태그 대신에 라우팅 한다고 함.
+함수형 component와 class형 component가 있음.
+함수 => return
+class => render return
+- 주석 쓸 때
+{/* 이부분이 렌더링 되는 부분입니다. */}
+- 두 줄 이상 코드를 쓸 때 => <></>
+<>
+여기 사이에 써준다.
+</>
+- 파일 모듈 화
+  모듈을 만들 때는 항상 대문자로 시작.
+- 항상 마감 해준다. 싱글에서도 꼭 / 써주기.
+
+
+
+나는 황쌤이다. 유튜브 채널
