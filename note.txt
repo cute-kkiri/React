@@ -59,3 +59,7 @@ class => render return
 brew update
 xcode-select --install
 sudo xcodebuild -license
+
+
+// 231129
+class형 component는 매핑을 두 번 해준다.
