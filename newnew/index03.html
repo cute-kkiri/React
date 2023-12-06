@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- React 사이트에서 CDN링크, 첫 번째 박스에 있는 링크는 개발 환경, 두 번째 박스에 있는 링크는 배포용 링크 -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- 
+        배포시는 아래 2개 사용!!
+        <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+     -->
+
+     <!-- JSX를 사용하려면 다음을 포함해야한다. -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+    <h1>Hello World!!</h1>
+    <hr>
+    <!-- 이 자리에 리액트를 이용하여 뭔가를 그려보자!!! -->
+    <div id="app"></div>
+    <hr>
+    <div id="app2"></div>
+
+    <!-- JSX 문법이 처리되려면 타입을 반드시 type="text/babel"로 지정해야한다. -->
+    <script type="text/babel">
+        // 부품을 만들어서 재사용한다.
+        // 1. 함수를 이용해서 부품을 만들어 보자.
+        function WelcomeFunction(props) { // props : 모든 속성을 객체로 받아준다.
+            return <h2>{props.name}님 {props.age}몇 살이네 행님이라 불러라 반갑습니다.</h2> // 여기는 내장되어있지 않으니까 그냥 props로 적어줌.
+        }
+
+        // 2. ES6의 클래스를 이용하여 부품을 만들어 보자.
+        class WelcomeClass extends React.Component { // class에는 본인을 나타내는 this가 항상 있다.
+            render() {
+                return <h2>{this.props.name}님 반갑습니다.</h2> // React.Component class에는 props가 내장되어있음. 그래서 props를 받아올 때 this
+            }
+        }
+
+        // 부품을 사용해 보자.
+        const element1 = <WelcomeFunction name="한사람" age="33" />
+        const element2 = <WelcomeFunction name="두사람" age="18" />
+
+        ReactDOM.render(
+            <div>
+                {element1}
+                {element2}
+            </div>, 
+            document.querySelector('#app')
+        );
+
+        function App() {
+            return (
+                <div>
+                    <WelcomeClass name="세사람" />
+                    <WelcomeClass name="네사람" />
+                    <WelcomeClass name="오사람" />
+                    <WelcomeClass name="육사람" />
+                </div>
+            );
+        }
+
+        ReactDOM.render(
+            <App />, 
+            document.querySelector('#app2')
+        );
+    </script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- React 사이트에서 CDN링크, 첫 번째 박스에 있는 링크는 개발 환경, 두 번째 박스에 있는 링크는 배포용 링크 -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- 
+        배포시는 아래 2개 사용!!
+        <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+     -->
+</head>
+<body>
+    <h1>Hello World!!</h1>
+    <hr>
+    <!-- 이 자리에 리액트를 이용하여 뭔가를 그려보자!!! -->
+    <div id="app"></div>
+    <hr>
+    <div id="app2"></div>
+
+    <script>
+        const root = document.querySelector('#app'); // 그려질 요소를 찾는다.
+        ReactDOM.render('Hellow React!!', root);
+        
+        // 위의 두 줄을 1줄로 표현하면?
+        ReactDOM.render('Hellow React!!', document.querySelector('#app2'));
+    </script>
+</body>
+</html>

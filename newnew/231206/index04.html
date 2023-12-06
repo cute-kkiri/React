@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- React 사이트에서 CDN링크, 첫 번째 박스에 있는 링크는 개발 환경, 두 번째 박스에 있는 링크는 배포용 링크 -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- 
+        배포시는 아래 2개 사용!!
+        <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+     -->
+
+     <!-- JSX를 사용하려면 다음을 포함해야한다. -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+    <h1>Hello World!!</h1>
+    <hr>
+    <!-- 이 자리에 리액트를 이용하여 뭔가를 그려보자!!! -->
+    <div id="app"></div>
+    <hr>
+    <div id="app2"></div>
+
+    <!-- JSX 문법이 처리되려면 타입을 반드시 type="text/babel"로 지정해야한다. -->
+    <script type="text/babel">
+        const user1 = {
+            name: '한사람',
+            age: 22,
+            gender: true
+        };
+        const user2 = {
+            name: '두사람',
+            age: 14,
+            gender: false
+        };
+
+        function formatUser(user) {
+            return user.name + "(" + user.age + "세, " + (user.gender ? '남자' : "여자") + ")";
+        };
+
+        function getGreeting(user) {
+            /* if(user) {
+                return <h2>{formatUser(user)}</h2>
+            }
+            return <h2>데이터가 없습니다.</h2> */
+
+            // 한 줄로 바꿔보기. return이 두 번들어가는건 보기 안좋으니까..
+            // return user ? <h2>{formatUser(user)}</h2> : <h2>데이터가 없습니다.</h2>
+
+            // 다른 방식으로 써보기.
+            let element = '';
+            if(user) {
+                element = <h2>{formatUser(user)}</h2>
+            } else {
+                element = <h2>데이터가 없습니다.</h2>
+            }
+
+            return element; // 리턴은 함수의 마지막에 1번만 나오게 코딩하는 것이 좋다. 주석은 많을 수록 좋다.
+        };
+
+        ReactDOM.render(
+            <div>
+                {getGreeting(user1)}
+                {getGreeting(user2)}
+                {getGreeting()}
+            </div>, 
+            document.querySelector('#app')
+        );
+    </script>
+</body>
+</html>

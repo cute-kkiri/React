@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- React 사이트에서 CDN링크, 첫 번째 박스에 있는 링크는 개발 환경, 두 번째 박스에 있는 링크는 배포용 링크 -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- 
+        배포시는 아래 2개 사용!!
+        <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+     -->
+
+     <!-- JSX를 사용하려면 다음을 포함해야한다. -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <style>
+        .header {font-size: 18pt; font-weight: bold; color: greenyellow;}
+    </style>
+</head>
+<body>
+    <h1>Hello World!!</h1>
+    <hr>
+    <!-- 이 자리에 리액트를 이용하여 뭔가를 그려보자!!! -->
+    <div id="app"></div>
+    <hr>
+
+    <!-- JSX 문법이 처리되려면 타입을 반드시 type="text/babel"로 지정해야한다. -->
+    <script type="text/babel">
+        // 스타일 지정하기
+        const element1 = (
+            // 스타일 지정하기 : className="클래스이름"
+            <h2 className="header">
+                나는 어떤모양일까?
+            </h2>
+        );
+        // React.createElement(태그명, 속성, 내용) : 태그를 생성해준다.
+        const element2 = React.createElement(
+            'h2',
+            {className: 'header'},
+            '나는 어떤모양일까2?'
+        );
+
+        ReactDOM.render(
+            <div>
+                {element1}
+                {element2}
+                {element1}
+            </div>, 
+            document.querySelector('#app')
+        );
+    </script>
+</body>
+</html>

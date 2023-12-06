@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- React 사이트에서 CDN링크, 첫 번째 박스에 있는 링크는 개발 환경, 두 번째 박스에 있는 링크는 배포용 링크 -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- 
+        배포시는 아래 2개 사용!!
+        <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+     -->
+
+     <!-- JSX를 사용하려면 다음을 포함해야한다. -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+    <h1>Hello World!!</h1>
+    <hr>
+    <!-- 이 자리에 리액트를 이용하여 뭔가를 그려보자!!! -->
+    <div id="app"></div>
+    <hr>
+
+    <!-- JSX 문법이 처리되려면 타입을 반드시 type="text/babel"로 지정해야한다. -->
+    <script type="text/babel">
+        // 이미지와 링크를 어떻게 달까?
+        const url1 = './images/cat01.png';
+        const url2 = './images/cat02.jpg';
+        const link = <a href="https://ko.legacy.reactjs.org/docs/introducing-jsx.html">JSX 공부하기</a>;
+        const img1 = <img src={url1} />
+        const img2 = <img src={url2} />
+
+        ReactDOM.render(
+            <div>
+                {link} <br />
+                {img1} <br />
+                {img2} <br />
+            </div>, 
+            document.querySelector('#app')
+        );
+    </script>
+</body>
+</html>
