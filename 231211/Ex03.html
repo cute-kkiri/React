@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 4. 리액트 작동원리</title>
+    <!-- React 사이트에서 CDN링크, 첫 번째 박스에 있는 링크는 개발 환경, 두 번째 박스에 있는 링크는 배포용 링크 -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+     <!-- JSX를 사용하려면 다음을 포함해야한다. -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+    <!-- 타겟 컨테이너 -->
+    <div id="react-container"></div>
+
+    <script>
+        // 순수 리액트와 자바스크립트 코드
+        // 엘리먼트 생성하기 : React.createlement(태그이름, 속성, 태그안의 텍스트)
+        const dish = React.createElement('h1', null, '구운연어');
+        // 그려라 : ReactDOM.render(요소, 어디에)
+        ReactDOM.render(dish, document.getElementById('react-container'));
+
+        /** ReactDOM.render는 리액트 18v부터 안쓰여서 콘솔에 오류를 나타낸다. 
+         *  밑에 createRoot로 바꿔주면 괜춘.
+         * ReactDOM.createRoot(document.getElementById('react-container')).render(dish);
+        */
+    </script>
+</body>
+</html>

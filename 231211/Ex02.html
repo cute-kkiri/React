@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- React 사이트에서 CDN링크, 첫 번째 박스에 있는 링크는 개발 환경, 두 번째 박스에 있는 링크는 배포용 링크 -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+     <!-- JSX를 사용하려면 다음을 포함해야한다. -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+    <!-- 
+        // 이것을 리액트로 한다면 어떻게 만들까?
+        h2{음식 조리법}
+        (section[id="backed-salmon"]>h1{요리법 $$$}+ul[class="ingredients"]>li{재료 $$$}*6)*2 
+    -->
+
+    <h2>음식 조리</h2>
+    <section id="backed-salmon">
+        <h1>요리법 001</h1>
+        <ul class="ingredients">
+            <li>재료 001</li>
+            <li>재료 002</li>
+            <li>재료 003</li>
+            <li>재료 004</li>
+            <li>재료 005</li>
+            <li>재료 006</li>
+        </ul>
+    </section>
+    <section id="backed-salmon">
+        <h1>요리법 002</h1>
+        <ul class="ingredients">
+            <li>재료 001</li>
+            <li>재료 002</li>
+            <li>재료 003</li>
+            <li>재료 004</li>
+            <li>재료 005</li>
+            <li>재료 006</li>
+        </ul>
+    </section>
+
+    <!-- JSX 문법이 처리되려면 타입을 반드시 type="text/babel"로 지정해야한다. -->
+    <script type="text/babel">
+    </script>
+</body>
+</html>

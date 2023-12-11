@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4-4. 리액트 컴포넌트</title>
+    <!-- React 사이트에서 CDN링크, 첫 번째 박스에 있는 링크는 개발 환경, 두 번째 박스에 있는 링크는 배포용 링크 -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+     <!-- JSX를 사용하려면 다음을 포함해야한다. -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <!-- ReactDOMFactories를 사용하려면 포함해야한다. -->
+    <script src="https://unpkg.com/react-dom-factories@1.0.2/index.js"></script>
+</head>
+<body>
+    <!-- 타겟 컨테이너 -->
+    <div id="react-container"></div>
+
+    <script>
+        // React.createElement를 대신해서 조금 더 쉽게 쓸 수 있는 ReactDOMFactories
+        const el = ReactDOMFactories.ul(null, '구운 연어',
+                    ReactDOMFactories.li(null, '연어 500그램'),
+                    ReactDOMFactories.li(null, '연어 500그램'),
+                    ReactDOMFactories.li(null, '연어 500그램'),
+                    ReactDOMFactories.li(null, '연어 500그램'),
+                    ReactDOMFactories.li(null, '연어 500그램'),
+                    ReactDOMFactories.li(null, '연어 500그램'),
+        );
+
+        // 그려라
+        ReactDOM.render(el, document.getElementById('react-container'));
+    </script>
+</body>
+</html>

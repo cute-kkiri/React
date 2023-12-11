@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 4. 리액트 작동원리</title>
+    <!-- React 사이트에서 CDN링크, 첫 번째 박스에 있는 링크는 개발 환경, 두 번째 박스에 있는 링크는 배포용 링크 -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+     <!-- JSX를 사용하려면 다음을 포함해야한다. -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+    <!-- 타겟 컨테이너 -->
+    <div id="react-container"></div>
+
+    <script>
+        // 순수 리액트와 자바스크립트 코드
+        var items = [
+            '연어 500그램',
+            '잣 1 컵',
+            '버터 상추 2 컵',
+            '옐로 스쿼시(Yellow Squash, 호박의 한 종류) 1개',
+            '마늘 3 쪽'
+        ];
+
+        // 배열.map((항목, 인덱스, 자신) => 처리할 내용) : 배열 요소에 대하여 하나하나 변환 작업을 해준다.(데이터를 변환할 때)
+        const ingredients = React.createElement('ul', {className: 'ingredients'},
+            // arrow 함수로 썼는데.. 중괄호를 쓰니까 안나옴. ul에 li가 안들어가는 형태로..
+            items.map((item, index) => 
+                // React.createElement('li', null, item)
+                React.createElement('li', {Key: index}, item)
+            )
+        )
+        
+        // 그려라 : ReactDOM.render(요소, 어디에)
+        ReactDOM.render(ingredients, document.getElementById('react-container'));
+
+        // map 연습
+        var ar = [1, 2, 3, 4, 5];
+        console.log(ar.map((n) => n * n)); // [1, 4, 9, 16, 25]
+        console.log(ar); // 자기 자신을 바꾸진 않는다.
+        console.log(ar.map((n) => n * 2 - 1)); // [1, 3, 5, 7, 9]
+
+        // underscore.js 자바스크립트 라이브러리
+        // javascript.info 가장 최근의 자바스크립트 문법을 공부할 수 있는 곳.
+    </script>
+</body>
+</html>

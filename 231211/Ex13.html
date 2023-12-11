@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4-4. 리액트 컴포넌트</title>
+    <!-- React 사이트에서 CDN링크, 첫 번째 박스에 있는 링크는 개발 환경, 두 번째 박스에 있는 링크는 배포용 링크 -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+     <!-- JSX를 사용하려면 다음을 포함해야한다. -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <!-- ReactDOMFactories를 사용하려면 포함해야한다. -->
+    <script src="https://unpkg.com/react-dom-factories@1.0.2/index.js"></script>
+</head>
+<body>
+    <!-- 타겟 컨테이너 -->
+    <div id="react-container"></div>
+
+    <script>
+        // ReactDOM 조금 더 편하게 쓰기.
+        const { render } = ReactDOM
+        var items = [
+            '연어 500그램',
+            '잣 1 컵',
+            '버터 상추 2 컵',
+            '옐로 스쿼시(Yellow Squash, 호박의 한 종류) 1개',
+            '마늘 3 쪽'
+        ];
+
+        // 다른 방법으로 써보기.
+        const list = ({items}) => React.createElement( 'ul', null, items.map((item, i) => React.createElement('li', {key: i}, item)) );
+
+        /* const el = ReactDOMFactories.ul(null, '구운 연어',
+                    items.map((item, i) => 
+                        ReactDOMFactories.li({key: i}, item)
+                    )
+        ); */
+
+        // ReactDOM 조금 더 편하게 쓰기.
+        render(list({items}), document.getElementById('react-container')); // list를 함수로 적어줘서 함수로 받아줌. list({items})
+    </script>
+</body>
+</html>
