@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- React 사용 -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <title>JSX React Application</title>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        .testClass{
+            background-color: skyblue;
+            font-size: 15pt;
+            padding: 15px;
+            text-align: center;
+            font-weight: bold;
+            margin: 5px;
+            border: 1px solid gray;
+        }
+    </style>
+    <!-- 이렇게 json타입의 데이터를 불러온다. -->
+    <script src="./data/data.js"></script>
+    <script type="text/babel">
+        // import dummy from './data/data.json'; // json 객체를 dummy 라는 변수에 넣어 임포트해준다.
+        console.log(data);
+        function DayList() {
+            /* key를 안쓰면 경고 뜸. */
+            return (
+                <ul>
+                    {
+                        data.days.map((day, i) => (
+                            <li key={day.id}>
+                                Day {day.day}
+                            </li>
+                        ))
+                    }
+                </ul>
+            );
+        }
+
+        function WordList() {
+            return (
+                <ul>
+                    {
+                        data.words.map((word, i) => (
+                            <li key={word.id}>
+                                {word.eng}({word.kor})
+                            </li>
+                        ))
+                    }
+                </ul>
+            );
+        }
+
+        function DayWordList() {
+            /* key를 안쓰면 경고 뜸. */
+            return (
+                <ul>
+                    {
+                        data.days.map((day, i) => (
+                            <li key={day.id}>
+                                Day {day.day} : {data.words[i].eng}({data.words[i].kor})
+                            </li>
+                        ))
+                    }
+                </ul>
+            );
+        }
+
+        const root = ReactDOM.createRoot(
+            document.querySelector('#app')
+        );
+
+        root.render(
+            <>
+                <DayList />
+                <hr />
+                <WordList />
+                <hr />
+                <DayWordList />
+                <hr />
+            </>
+        );
+    </script>
+</head>
+<body>
+    <div id="app"></div>
+</body>
+</html>

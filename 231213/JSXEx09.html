@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- React 사용 -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <title>JSX React Application</title>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        table {
+            width: 1400px;
+            border: 0px solid gray;
+            padding: 5px;
+            margin: auto;
+        }
+        td, th {
+            padding: 5px;
+            border: 1px solid gray;
+            text-align: center;
+        }
+        th {
+            background-color: silver;
+            font-weight: bold;
+        }
+        .left {
+            text-align: left;
+        }
+        .title {
+            font-size: 18pt;
+            text-align: center;
+            font-weight: bold;
+            border: none;
+        }
+    </style>
+    <!-- 이렇게 json타입의 데이터를 불러온다. -->
+    <script src="./data/data2.js"></script>
+    <script type="text/babel">
+        // import dummy from './data/data.json'; // json 객체를 dummy 라는 변수에 넣어 임포트해준다.
+        console.log(hanja);
+        function HanjaList() {
+            return (
+                <table>
+                    <tr>
+                        <td className="title" colspan="4">알아야할 사자성어</td>
+                    </tr>
+                    <tr>
+                        <th>번호</th>
+                        <th>한자</th>
+                        <th>한글</th>
+                        <th>설명</th>
+                    </tr>
+                    {
+                        hanja.map((item, index) => (
+                            <tr>
+                            <td>{index + 1}</td> 
+                            <td>{item.h}</td> 
+                            <td>{item.k}</td> 
+                            <td className="left">{item.t}</td> 
+                            </tr>
+                        ))
+                    }
+                </table>
+            );
+        }
+
+        const root = ReactDOM.createRoot(
+            document.querySelector('#app')
+        );
+
+        root.render(
+            <>
+                <HanjaList />
+                <hr />
+            </>
+        );
+    </script>
+</head>
+<body>
+    <div id="app"></div>
+</body>
+</html>
