@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>생명주기</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- JSX를 사용하려면 다음을 포함해야 합니다.  -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+</head>
+    <div id="app1"></div> <hr/>
+    <div id="app2"></div> <hr/>
+    <div id="app3"></div> <hr/>
+    <script type="text/babel">
+        // 상태와 생명주기
+        // 1. 시계를 이용하여 만들어 보자 .
+        function tick1() {
+            const element = (
+                <div>
+                    <h2>현재시간 : {new Date().toLocaleTimeString()}</h2>
+                </div>
+            );
+            // ReactDOM.render()렌더링된 출력을 변경하기 위해 호출 합니다.
+            ReactDOM.render(
+                element,
+                document.querySelector('#app1')
+            );
+        }
+        setInterval(tick1, 1000);
+
+        // 2. 컴포넌트를 만들어 사용해보자(함수 사용)
+        function Clock(props){
+            return (
+                <div>현재시간 : {props.date.toLocaleTimeString()}</div>
+            );
+        }
+        function tick2(){
+            ReactDOM.render(
+                <Clock date={new Date()} />,
+                document.querySelector('#app2')
+            );
+        }
+        setInterval(tick2, 1000);
+
+        /*
+        함수를 클래스로 변환 : Clock다음과 같은 5단계로 함수 구성 요소를 클래스로 변환할 수 있습니다 .
+        1. React.Component를 확장하는 동일한 이름 의 ES6 클래스 를 만듭니다 .
+        2. render()라는 단일 빈 메서드를 추가합니다 .
+        3. 함수의 본문을 render()메서드로 이동합니다.
+        4. 본체 props에서 this.propsrender()로 교체 하십시오.
+        5. 나머지 빈 함수 선언을 삭제합니다.        
+        */
+        class Clock2 extends React.Component {
+            render() {
+                return (
+                    <div>
+                        <h2>현재시간 : {this.props.date.toLocaleTimeString()}</h2>
+                    </div>
+                );
+            }
+        }
+        function tick3() {
+            ReactDOM.render(
+                <Clock2 date={new Date()} />,
+                document.querySelector('#app3')
+            );
+        }
+        setInterval(tick3, 1000);
+ /*
+        클래스에 로컬 상태 추가
+        date3단계로 props에서 state로 이동할 것입니다 .
+        1. this.props.date에서 this.state.daterender()로 바꿉니다.
+        2. 클래스 생성자를 추가합니다.
+        3. <Clock />요소에서 date 속성을 제거합니다 .
+        */
+        class Clock3 extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = {date: new Date()};
+            }
+            // setter
+            // 구성 요소 this.setState()는 로컬 상태에 대한 업데이트를 예약 하는데 사용 됩니다.
+            tick() {
+                this.setState({
+                    date: new Date()
+                });
+            }
+            // DOM에 렌더링된 후에 componentDidMount()이 실행됩니다. 
+            componentDidMount() {
+                this.timerID = setInterval(() => this.tick(), 1000);
+            }
+            // componentWillUnmount() 수명 주기  메서드에서 타이머를 분해합니다 .
+            componentWillUnmount() {
+                clearInterval(this.timerID);
+            }
+            render() {
+                return (
+                    <div>
+                        <h2>현재시간 : {this.state.date.toLocaleTimeString()}.</h2>
+                    </div>
+                );
+            }
+        }
+        ReactDOM.render(
+            <Clock3 />,
+            document.querySelector('#app4')
+        );        
+    </script>
+</body>
+</html>

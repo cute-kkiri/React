@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이벤트 지정하기</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+     <!-- JSX를 사용하려면 다음을 포함해야한다. -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+    <div id="app"></div><hr />
+    <script type="text/babel">
+        // 이벤트 처리
+        /* 
+        React 요소로 이벤트를 처리하는 것은 DOM 요소에서 이벤트를 처리하는 것과 매우 유사합니다.
+        */
+        function ClickFunction() {
+            alert('왜눌러 아프잖아~~~');
+        }
+
+        function Form() {
+            function handleSubmit(e) {
+                e.preventDefault(); // 기본 이벤트 제거
+                console.log('전송버튼 눌림(React)');
+                alert('리액트 이벤트 호출!!!');
+            }
+            return (
+                <form onSubmit={handleSubmit}>
+                    <button type="submit">눌러봐!!!!</button>
+                </form>
+            );
+        }
+
+        class Toggle extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = { isToggleOn : true};
+                /*
+                JSX 콜백에서 this의 의미에 주의해야 합니다 . JavaScript에서 클래스 메서드는 기본적으로 바인딩 되지 않습니다. 
+                아래 줄을 주석처리하면 에러가 발생합니다.
+                this.handleClick바인딩 하고 전달하는 것을 잊어버린 경우 onClick함수가 실제로 호출 될 때 'undefined'입니다.
+                */
+                this.handleClick = this.handleClick.bind(this); // bind 해줘야 render에서 사용가능하다.
+            }
+            handleClick() {
+                this.setState((prevState) => ({
+                        isToggleOn : !prevState.isToggleOn
+                    })
+                );
+            }
+            render() {
+                return (
+                    /* bind해주지 않고 쓰면 실행되지 않는다. */
+                    <button onClick={this.handleClick}>
+                        {this.state.isToggleOn ? '켜기' : '끄기'} {/* isToggleOn의 현재 상태 값을 가져온다. */}
+                    </button>
+                );
+            }
+        }
+        ReactDOM.render(
+            <div>
+                {/* 함수를 호출하는게 아니라 전달하는 거다. */}
+                <button onClick={ClickFunction}>눌러봐~~~</button>
+                <Form />
+                <Toggle />
+            </div>,
+            document.querySelector('#app'));
+    </script>
+</body>
+</html>

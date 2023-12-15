@@ -1,0 +1,9 @@
+.bible {
+    font-size: 11pt;
+    text-align: left;
+    border: 1px solid gray;
+    padding: 5px;
+    width: 50%;
+    margin: auto;
+    margin-bottom: 5px;
+}
