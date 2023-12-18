@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- React 사이트에서 CDN링크, 첫 번째 박스에 있는 링크는 개발 환경, 두 번째 박스에 있는 링크는 배포용 링크 -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+     <!-- JSX를 사용하려면 다음을 포함해야한다. -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+    <button onclick="ClickFunction()">일반이벤트 지정</button>
+    <hr />
+    <form onsubmit="alert('왜눌러');return false;"><button>전송하기</button></form>
+    <hr />
+    <div id="app"></div> <hr />
+
+    <!-- JSX 문법이 처리되려면 타입을 반드시 type="text/babel"로 지정해야한다. -->
+    <script type="text/babel">
+        function ClickFunction() {
+            alert('일반 이벤트 지정');
+        }
+
+        // 리액트로 이벤트 지정
+        function Form() {
+            function handleSubmit(e) {
+                e.preventDefault();
+                alert('리액트 이벤트지정');
+            }
+            return (
+                <form onSubmit={handleSubmit}> {/* 함수명을 {}안에 써주어야 한다. 이벤트 속성이 낙타표기법이어야 한다. */}
+                    <button type="submit">전송하기</button>
+                </form>
+            )
+        }
+
+        ReactDOM.render(
+            <div>
+                <button onClick={ClickFunction}>리액트 이벤트 지정</button>
+                <hr />
+                <Form />
+            </div>,
+            document.querySelector('#app')
+        )
+
+    </script>
+</body>
+</html>

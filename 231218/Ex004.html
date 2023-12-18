@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>조건부 렌더링</title>
+    <!-- React 사이트에서 CDN링크, 첫 번째 박스에 있는 링크는 개발 환경, 두 번째 박스에 있는 링크는 배포용 링크 -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+     <!-- JSX를 사용하려면 다음을 포함해야한다. -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+
+    <!-- JSX 문법이 처리되려면 타입을 반드시 type="text/babel"로 지정해야한다. -->
+    <script type="text/babel">
+        /* 
+        조건부 렌더링
+        1. if문 사용
+        2. && 연산자를 이용하여 조건부 렌더링 가능하다.
+           &&(AND)연산의 경우 앞의 식이 거짓이면 뒤의 식은 계산하지 않는다.
+        3. || 연산자를 이용하여 조건부 렌더링 가능하다.
+           ||(OR)연산의 경우 앞의 식이 참이면 뒤의 식은 계산하지 않는다.
+        4. 3항 연산자를 이용하여 조건부 렌더링 가능하다.
+           조건 ? 참인 경우 : 거짓인 경우
+        */
+        function MailBox(props) {
+            const unreadMessages = props.unreadMessages;
+            return (
+                <div>
+                    <h2>Hello!!!</h2>
+                    {unreadMessages.length > 0 && <h2>읽지 않은 메세지 {unreadMessages.length}개 있습니다.</h2>}
+                    {unreadMessages.length == 0 && <h2>읽지 않은 메세지가 없습니다.</h2>}
+
+                    {unreadMessages.length == 0 || <h3>읽지 않은 메세지 {unreadMessages.length}개 있습니다.</h3>}
+                    {unreadMessages.length > 0 || <h3>읽지 않은 메세지가 없습니다.</h3>}
+
+                    {unreadMessages.length > 0 ? <h4>읽지 않은 메세지 {unreadMessages.length}개 있습니다.</h4> : <h4>읽지 않은 메세지가 없습니다.</h4>}
+                </div>
+            )
+        }
+
+        const message1 = ['React', 'Javascript', 'css'];
+        const message2 = [];
+
+        ReactDOM.render(
+            <div>
+                <MailBox unreadMessages={message1} />
+                <MailBox unreadMessages={message2} />
+            </div>,
+            document.querySelector('#app')
+        )
+    </script>
+</body>
+</html>

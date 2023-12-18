@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- React 사이트에서 CDN링크, 첫 번째 박스에 있는 링크는 개발 환경, 두 번째 박스에 있는 링크는 배포용 링크 -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+     <!-- JSX를 사용하려면 다음을 포함해야한다. -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+    <div id="app"></div> <hr />
+
+    <!-- JSX 문법이 처리되려면 타입을 반드시 type="text/babel"로 지정해야한다. -->
+    <script type="text/babel">
+        class Toggle extends React.Component {
+            constructor(props) {
+                super(props); // 부모클래스의 생성자를 호출한다.
+                this.state = {isToggleOn : true} // 상태변수에 현재 상태 값을 저장했다.
+                // 이벤트 지정
+                // 다음 줄을 지정하지 않으면 이벤트 작동되지 않는다.
+                // 왜? 자바스크립트에서 클래스의 메서드는 기본적으로 바인딩되지 않는다.(내부에 만든)
+                // 반드시 바인딩을 해줘야만 작동된다. 바인딩하지 않으면 'undefined'이다.
+                this.handleClick = this.handleClick.bind(this)
+            }
+            handleClick() {
+                this.setState((preState) => ({ // 상태 값 변경
+                        isToggleOn : !preState.isToggleOn // isToggleOn의 반대 값으로 변경.
+                    })
+                );
+            }
+            
+            render() {
+                return (
+                    <button onClick={this.handleClick}>
+                        {this.state.isToggleOn ? '켜기' : '끄기'}
+                    </button>
+                )
+            }
+        }
+
+        /* 
+        bind가 거슬릴경우 두 가지 방법으로 해결 가능하다.
+        */
+        class Button1 extends React.Component {
+            // 1. 화살표 함수로 만들어 주면 된다.
+            handleClick = () => {
+                alert('버튼1을 눌렀냐?');
+            }
+            render() {
+                return (
+                    <button onClick={this.handleClick}>눌러봐1</button>
+                )
+            }
+        }
+
+        class Button2 extends React.Component {
+            handleClick () {
+                alert('버튼2을 눌렀냐?');
+            }
+            render() {
+                return (
+                    // 2. 이벤트 지정에 화살표 함수를 쓴다.
+                    <button onClick={() => {this.handleClick()}}>눌러봐2</button>
+                )
+            }
+        }
+
+        // 이벤트 핸들러에 매개변수를 전달하는 방법
+        class Button3 extends React.Component {
+            handleClick (data) {
+                alert(JSON.stringify(data));
+            }
+            render() {
+                return (
+                    // 2. 이벤트 지정에 화살표 함수를 쓴다.
+                    <div>
+                        <button onClick={(e) => {this.handleClick({'name': '한사람', 'age': 22, 'gender': false})}}>눌러봐3</button>
+                        <button onClick={(e) => {this.handleClick({'name': '두사람', 'age': 18})}}>눌러봐4</button>
+                    </div>
+                )
+            }
+        }
+
+        ReactDOM.render(
+            <div>
+                <Toggle />
+                <hr />
+                <Button1 />
+                <hr />
+                <Button2 />
+                <hr />
+                <Button3 />
+            </div>,
+            document.querySelector('#app')
+        )
+
+    </script>
+</body>
+</html>

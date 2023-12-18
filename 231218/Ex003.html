@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>조건부 렌더링</title>
+    <!-- React 사이트에서 CDN링크, 첫 번째 박스에 있는 링크는 개발 환경, 두 번째 박스에 있는 링크는 배포용 링크 -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+     <!-- JSX를 사용하려면 다음을 포함해야한다. -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+
+    <!-- JSX 문법이 처리되려면 타입을 반드시 type="text/babel"로 지정해야한다. -->
+    <script type="text/babel">
+        function UserGreeting(props) {
+            return <h1>회원님 방가방가!</h1>;
+        }
+
+        function GuestGreeting(props) {
+            return <h1>손님 방가방가~~</h1>;
+        }
+
+        function Greeting(props) {
+            const isLogin = props.isLogin;
+            if(isLogin) {
+                return <h2>회원님 방가방가</h2>
+            } else {
+                return <h2>손님 방가방가</h2>
+            }
+        }
+
+        class LoginControl extends React.Component {
+            constructor(props) {
+                super(props);
+                this.handleLoginClick = this.handleLoginClick.bind(this);
+                this.handleLogoutClick = this.handleLogoutClick.bind(this);
+                this.state = {isLogin: false} // 현재 상태 로그아웃
+            }
+            handleLoginClick() {
+                // 아이디와 비번을 서버로 넘겨 로그인 결과를 받아서 처리해야한다.
+                this.setState({isLogin: true}); // 로그인
+            }
+            handleLogoutClick() {
+                this.setState({isLogin: false}); // 로그아웃
+            }
+            render() {
+                const isLogin = this.state.isLogin;
+                let button;
+                if(isLogin) {
+                    // button = <LogoutButton onClick={this.handleLogoutClick} />;
+                    button = <button onClick={this.handleLogoutClick}>로그아웃</button>;
+                } else {
+                    // button = <LoginButton onClick={this.handleLoginClick} />;
+                    button = <button onClick={this.handleLoginClick}>로 그 인</button>;
+                }
+
+                return (
+                    <div>
+                        <Greeting isLogin={isLogin} />
+                        {button}
+                    </div>
+                )
+            }
+        }
+
+        ReactDOM.render(
+            <div>
+                {/* 
+                    <Greeting isLogin={true} />
+                    <hr />
+                    <Greeting isLogin={false} />
+                    <hr />
+                */}
+                <LoginControl />
+            </div>,
+            document.querySelector('#app')
+        )
+    </script>
+</body>
+</html>

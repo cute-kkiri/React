@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>리스트와 Key</title>
+    <!-- React 사이트에서 CDN링크, 첫 번째 박스에 있는 링크는 개발 환경, 두 번째 박스에 있는 링크는 배포용 링크 -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+     <!-- JSX를 사용하려면 다음을 포함해야한다. -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <!-- number들의 format 형태지원. -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+
+    <!-- JSX 문법이 처리되려면 타입을 반드시 type="text/babel"로 지정해야한다. -->
+    <script type="text/babel">
+        const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+        // key를 지정하지 않으면 다음과 같은 경고가 표시된다.
+        // react.development.js:199 Warning: Each child in a list should have a unique "key" prop.
+        /* 
+        const listItem1 = numbers.map((n, i) => <li>아이템 {numeral(n).format('000')}</li>);
+        const listItem2 = numbers.map((n) => <li>항목 {numeral(n * 3).format('000')}</li>);
+        */
+        // Key는 React가 어떤 항목을 변경, 추가 또는 삭제할지 식별하는 것을 돕습니다. key는 엘리먼트에 안정적인 고유성을 부여하기 위해 배열 내부의 엘리먼트에 지정해야 합니다.
+        const listItem1 = numbers.map((n, i) => <li key={i}>아이템 {numeral(n).format('000')}</li>);
+        const listItem2 = numbers.map((n, i) => <li key={i}>항목 {numeral(n * 3).format('000')}</li>);
+
+        const todo = [
+            {index: 1, text: 'JavaScript'},
+            {index: 2, text: 'React'},
+            {index: 3, text: 'HTML'},
+            {index: 4, text: 'CSS'},
+        ]
+
+        const listItem3 = todo.map((n) => <li key={n.index}>항목 {numeral(n.index).format('0000')} : {n.text}</li>);
+
+        function ListItem(props) {
+            let value = props.value;
+
+            return (
+                // react.development.js:199 Warning: Each child in a list should have a unique "key" prop.
+                // 여기서 key를 주면 안된다.
+                // <li key={value.toString()}>아이템 {value}</li>
+                <li>아이템 {value}</li>
+            )
+        }
+
+        function Numberlist(props) {
+            const numbers = props.numbers;
+            // key를 여기서 줘야 경고가 뜨지 않는다. 올바른 키지정 방법. map에서 key를 지정해라!!!
+            const listItem = numbers.map((n, i) => <ListItem key={i} value={n} />)
+
+            return (
+                <ul>
+                    {listItem}
+                </ul>
+            )
+        }
+
+        // key는 속성이 아니어서 엘리먼트에서 보이지 않는다. 리액트에서 편의를 위해 지정하는 값이라서.
+        // Key는 배열 안에서 형제 사이에서 고유해야 하고 전체 범위에서 고유할 필요는 없습니다. 두 개의 다른 배열을 만들 때 동일한 key를 사용할 수 있습니다.
+        function Blog(props) {
+            const sidebar = (
+                <ul>
+                {props.posts.map((post) =>
+                    <li key={post.id}>
+                        {post.title}
+                    </li>
+                )}
+                </ul>
+            );
+            const content = props.posts.map((post) =>
+                <div key={post.id}>
+                    <h3>{post.title}</h3>
+                    <p>{post.content}</p>
+                </div>
+            );
+            return (
+                <div>
+                    {sidebar}
+                    <hr />
+                    {content}
+                </div>
+            );
+            }
+
+            const posts = [
+            {id: 1, title: 'Hello World', content: 'Welcome to learning React!'},
+            {id: 2, title: 'Installation', content: 'You can install React from npm.'}
+            ];
+
+        ReactDOM.render(
+            <div>
+                <ul>{listItem1}</ul>
+                <hr />
+                <ol>{listItem2}</ol>
+                <hr />
+                <ul>{listItem3}</ul>
+                <hr />
+                <Numberlist numbers={numbers} />
+                <hr />
+                <Blog posts={posts} />
+            </div>,
+            document.querySelector('#app')
+        )
+    </script>
+</body>
+</html>
