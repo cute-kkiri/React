@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1개의 컨트롤을 만들어서 여러용도로 써보자.</title>
+    <!-- React 사이트에서 CDN링크, 첫 번째 박스에 있는 링크는 개발 환경, 두 번째 박스에 있는 링크는 배포용 링크 -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+     <!-- JSX를 사용하려면 다음을 포함해야한다. -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <!-- number들의 format 형태지원. -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+
+    <!-- JSX 문법이 처리되려면 타입을 반드시 type="text/babel"로 지정해야한다. -->
+    <script type="text/babel">
+        // 종류 값 : 구분자
+        const scaleNames = {
+            c: 'Celsius(섭씨온도)',
+            f: 'Fahrenheit(화씨온도)',
+            k: 'Absolute(절대온도)'
+        };
+
+        class TemperatureInput extends React.Component {
+            constructor(props) {
+                super(props);
+                this.handleChange = this.handleChange.bind(this); // 이벤트 바인딩
+                this.state = {temperature: ''}; // 상태값 변수추가
+            }
+            // 상태 변수 수정해주는 함수
+            handleChange(e) {
+                this.setState({temperature: e.target.value});
+            }
+            // 그리기
+            render() {
+                const temperature = this.state.temperature; // 현재 상태값을 온도로
+                const scale = this.props.scale; // scale속성값을 scale변수 값으로
+                return (
+                <fieldset>
+                    <legend>{scaleNames[scale]}를 입력하세요.</legend>
+                    {scaleNames[scale]} : 
+                        <input type="number" value={temperature} onChange={this.handleChange} />
+                </fieldset>
+                );
+            }
+        }
+
+        class Calculator extends React.Component {
+            render() {
+                return (
+                <div>
+                    <TemperatureInput scale="c" /><hr />
+                    <TemperatureInput scale="f" /><hr />
+                    <TemperatureInput scale="k" /><hr />
+                </div>
+                );
+            }
+        }
+
+        ReactDOM.render(
+            <div>
+                <Calculator />
+            </div>, 
+            document.querySelector('#app')
+        );
+    </script>
+</body>
+</html>

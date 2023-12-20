@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>값을 동기화</title>
+    <!-- React 사이트에서 CDN링크, 첫 번째 박스에 있는 링크는 개발 환경, 두 번째 박스에 있는 링크는 배포용 링크 -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+     <!-- JSX를 사용하려면 다음을 포함해야한다. -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <!-- number들의 format 형태지원. -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+
+    <!-- JSX 문법이 처리되려면 타입을 반드시 type="text/babel"로 지정해야한다. -->
+    <script type="text/babel">
+        function BoilingVerdict(props) {
+            // celsius : 섭씨온도를 나타내는 값.
+            let input = parseFloat(props.celsius); // 문자를 온도로 변환
+            if (Number.isNaN(input)) { // 변환할 수 없다면
+                input = ''; // 빈문자열 리턴
+            }
+
+            if (input >= 100) {
+                return <p>현재 온도는 {input}도로 물이 끓는 점에 도달했습니다.</p>;
+            }
+            return <p>현재 온도는 {input}도로 아직 물이 끓는 온도에 도달하지 못 했습니다.</p>;
+        }
+
+        // 화씨 온도를 받아 섭씨온도로 바꿔주는 함수
+        function toCelsius(fahrenheit) {
+            return (fahrenheit - 32) * 5 / 9;
+        }
+        // 섭씨 온도를 받아 화씨 온도로 바꿔주는 함수
+        function toFahrenheit(celsius) {
+            return (celsius * 9 / 5) + 32;
+        }
+        // 이 함수는 올바르지 않은 temperature 값에 대해서는 빈 문자열을 반환하고 값을 소수점 세 번째 자리로 반올림하여 출력합니다.
+        function tryConvert(temperature, convert) {
+            const input = parseFloat(temperature); // 문자를 온도로 변환
+            if (Number.isNaN(input)) { // 변환할 수 없다면
+                return ''; // 빈문자열 리턴
+            }
+            const output = convert(input); // 
+            return numeral(output).format('###.000');
+            /* const rounded = Math.round(output * 1000) / 1000;
+            return rounded.toString(); */
+        }
+
+        /* 
+            두개의 입력 값이 서로의 것과 동기화를 해보겠다.
+            React에서 state를 공유하는 일은 그 값을 필요로 하는 컴포넌트 간의 가장 가까운 공통 조상으로 state를 끌어올림으로써 이뤄낼 수 있습니다. 
+            이렇게 하는 방법을 “state 끌어올리기”라고 부릅니다. 이제 TemperatureInput이 개별적으로 가지고 있던 지역 state를 지우는 대신 Calculator로 그 값을 옮겨놓을 것입니다.
+        */
+        // 종류 값 : 구분자
+        const scaleNames = {
+            c: 'Celsius(섭씨온도)',
+            f: 'Fahrenheit(화씨온도)'
+        };
+
+        // state가 들어간 항목 모두 지우기.
+        class TemperatureInput extends React.Component {
+            constructor(props) {
+                super(props);
+                this.handleChange = this.handleChange.bind(this); // 이벤트 바인딩
+                // this.state = {temperature: ''}; // 상태값 변수추가
+            }
+            // 상태 변수 수정해주는 함수
+            handleChange(e) {
+                // this.setState({temperature: e.target.value});
+                this.props.onTemperatureChange(e.target.value);
+            }
+            // 그리기
+            render() {
+                // const temperature = this.state.temperature; // 현재 상태값을 온도로
+                const temperature = this.props.temperature;
+                const scale = this.props.scale; // scale속성값을 scale변수 값으로
+                return (
+                <fieldset>
+                    <legend>{scaleNames[scale]}를 입력하세요.</legend>
+                    {scaleNames[scale]} : 
+                        <input type="number" value={temperature} onChange={this.handleChange} />
+                </fieldset>
+                );
+            }
+        }
+
+        // 동기화될 컴포넌트를 모두 가지고 있는 공통의 조상 클래스를 만들어서 TemperatureInput에서 사용한 state값을 조상에 넣는다.
+        class Calculator extends React.Component {
+            constructor(props) {
+                super(props);
+                // 섭씨온도 변경 시
+                this.handleCelsiusChange = this.handleCelsiusChange.bind(this);
+                // 화씨온도 변경 시
+                this.handleFahrenheitChange = this.handleFahrenheitChange.bind(this);
+                // 상태 값에 변수 2개 추가. : 온도, 종류(섭씨)
+                this.state = {temperature: '', scale: 'c'}; // 기본값을 섭씨온도로 먼저 설정.
+            }
+
+            handleCelsiusChange(temperature) {
+                this.setState({scale: 'c', temperature});
+            }
+
+            handleFahrenheitChange(temperature) {
+                this.setState({scale: 'f', temperature});
+            }
+
+            render() {
+                // 종류
+                const scale = this.state.scale;
+                // 온도
+                const temperature = this.state.temperature;
+                // 종류가 화씨이면 섭씨 값으로 변경하고 아니면 그냥 온도를 가진다.
+                const celsius = scale === 'f' ? tryConvert(temperature, toCelsius) : temperature;
+                // 종류가 섭씨이면 화씨 값으로 변경하고 아니면 그냥 온도를 가진다.
+                const fahrenheit = scale === 'c' ? tryConvert(temperature, toFahrenheit) : temperature;
+
+                return (
+                <div>
+                    <TemperatureInput
+                        scale="c"
+                        temperature={celsius}
+                        onTemperatureChange={this.handleCelsiusChange} />
+                    <TemperatureInput
+                        scale="f"
+                        temperature={fahrenheit}
+                        onTemperatureChange={this.handleFahrenheitChange} />
+                    <BoilingVerdict
+                        celsius={parseFloat(celsius)} />
+                </div>
+                );
+            }
+        }
+
+        /* class Calculator extends React.Component {
+            render() {
+                return (
+                <div>
+                    <TemperatureInput scale="c" /><hr />
+                    <TemperatureInput scale="f" /><hr />
+                </div>
+                );
+            }
+        } */
+
+        ReactDOM.render(
+            <div>
+                <Calculator />
+            </div>, 
+            document.querySelector('#app')
+        );
+    </script>
+</body>
+</html>

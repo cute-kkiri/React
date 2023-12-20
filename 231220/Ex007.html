@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>폼</title>
+    <!-- React 사이트에서 CDN링크, 첫 번째 박스에 있는 링크는 개발 환경, 두 번째 박스에 있는 링크는 배포용 링크 -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+     <!-- JSX를 사용하려면 다음을 포함해야한다. -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <!-- number들의 format 형태지원. -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+
+    <!-- JSX 문법이 처리되려면 타입을 반드시 type="text/babel"로 지정해야한다. -->
+    <script type="text/babel">
+        function BoilingVerdict(props) {
+            // celsius : 섭씨온도를 나타내는 값.
+            if (props.celsius >= 100) {
+                return <p>현재 온도는 {props.celsius}도로 물이 끓는 점에 도달했습니다.</p>;
+            }
+            return <p>현재 온도는 {props.celsius}도로 아직 물이 끓는 온도에 도달하지 못 했습니다.</p>;
+        }
+
+        // 입력 온도에 따라 물이 끓는점에 도달했는지를 판단해주는 컴포넌트
+        class Calculator extends React.Component {
+            constructor(props) {
+                super(props);
+                this.handleChange = this.handleChange.bind(this); // 이벤트 연결
+                this.state = {temperature: ''}; // 온도를 상태 변수에 추가
+            }
+            // 값이 변경되면 상태 변수값을 변경.
+            handleChange(e) {
+                this.setState({temperature: e.target.value});
+            }
+            // 그리기
+            render() {
+                const temperature = this.state.temperature;
+                return (
+                <fieldset>
+                    <legend>섭씨 온도를 입력하세요 :</legend>
+                    <input
+                        type='number'
+                        value={temperature}
+                        onChange={this.handleChange} />{/* 이벤트 등록 : 값이 변경되면 */}
+                    {/* 온도를 판단해주는 함수를 포함 상태값을 prop으로 전달 */}
+                    <BoilingVerdict celsius={parseFloat(temperature)} /> {/* parseFloat은 아마 숫자로 변경해주는 거였지? */}
+                </fieldset>
+                );
+            }
+        }
+
+        ReactDOM.render(
+            <div>
+                <Calculator />
+                <hr />
+            </div>, 
+            document.querySelector('#app')
+        );
+    </script>
+</body>
+</html>

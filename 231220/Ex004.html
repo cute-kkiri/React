@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>폼</title>
+    <!-- React 사이트에서 CDN링크, 첫 번째 박스에 있는 링크는 개발 환경, 두 번째 박스에 있는 링크는 배포용 링크 -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+     <!-- JSX를 사용하려면 다음을 포함해야한다. -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <!-- number들의 format 형태지원. -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+
+    <!-- JSX 문법이 처리되려면 타입을 반드시 type="text/babel"로 지정해야한다. -->
+    <script type="text/babel">
+        // FlavorForm 컴포넌트를 클래스로 만든다.
+        class FlavorForm extends React.Component {
+            // 생성자
+            constructor(props) {
+                super(props);
+                this.state = {value: '안녕하세요 반갑습니다.'}; // 상태값에 변수 value를 추가
+                // 이벤트 연결
+                this.handleChange = this.handleChange.bind(this);
+                this.handleSubmit = this.handleSubmit.bind(this);
+            }
+            // 내용이 변경되었을 때 실행할 함수
+            handleChange(event) {
+                this.setState({value: event.target.value}); // value변수의 값을 변경한다.
+            }
+            // 전송버튼을 클릭했을 때 실행할 함수
+            handleSubmit(event) {
+                alert('입력한 값: ' + this.state.value); // 경고창으로 상태값 출력
+                alert('입력한 값: ' + document.queryselector('#message').value); // 경고창으로 상태값 출력
+                event.preventDefault(); // 기본 이벤트 취소
+            }
+
+            render() {
+                return (
+                <form onSubmit={this.handleSubmit}> {/* 이벤트 연결 */}
+                    <select name="" id="message" value={this.state.value} onChange={this.handleChange}>
+                        <option value="1">사과</option>
+                        <option value="2">배</option>
+                        <option value="3">감</option>
+                        <option value="4">대추</option>
+                        <option value="5">밤</option>
+                    </select>
+                    <input type="submit" value="Submit" />
+                </form>
+                );
+            }
+        }
+
+        const list = '사과, 배, 감, 밤, 대추'.split(', '); // ,를 구분자로 배열 만듬.
+
+        // FlavorForm2 컴포넌트를 클래스로 만든다.
+        class FlavorForm2 extends React.Component {
+            // 생성자
+            constructor(props) {
+                super(props);
+                // this.state = {value: list[3]}; // 상태값에 변수 value를 추가 // undefined
+                this.state = {value: 3}; // 상태값에 변수 value를 추가 // 3번 value 선택됨.(밤)
+                // 이벤트 연결
+                this.handleChange = this.handleChange.bind(this);
+                this.handleSubmit = this.handleSubmit.bind(this);
+            }
+            // 내용이 변경되었을 때 실행할 함수
+            handleChange(event) {
+                this.setState({value: event.target.value}); // value변수의 값을 변경한다.
+            }
+            // 전송버튼을 클릭했을 때 실행할 함수
+            handleSubmit(event) {
+                alert('입력한 값: ' + list[this.state.value]); // 경고창으로 상태값 출력
+                alert('입력한 값: ' + list[document.queryselector('#message2').value]); // 경고창으로 상태값 출력
+                event.preventDefault(); // 기본 이벤트 취소
+            }
+
+            render() {
+                return (
+                <form onSubmit={this.handleSubmit}> {/* 이벤트 연결 */}
+                    <select name="" id="message2" value={this.state.value} onChange={this.handleChange}>
+                        {
+                            list.map((item, index) => (
+                                <option key={index} value={index}>{item}</option>
+                            ))
+                        }
+                    </select>
+                    <input type="submit" value="Submit" />
+                </form>
+                );
+            }
+        }
+
+        ReactDOM.render(
+            <div>
+                <FlavorForm />
+                <hr />
+                <FlavorForm2 />
+                <hr />
+            </div>, 
+            document.querySelector('#app')
+        );
+    </script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>폼</title>
+    <!-- React 사이트에서 CDN링크, 첫 번째 박스에 있는 링크는 개발 환경, 두 번째 박스에 있는 링크는 배포용 링크 -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+     <!-- JSX를 사용하려면 다음을 포함해야한다. -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <!-- number들의 format 형태지원. -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+
+    <!-- JSX 문법이 처리되려면 타입을 반드시 type="text/babel"로 지정해야한다. -->
+    <script type="text/babel">
+
+        // 다중 컨트롤 제어
+        class Reservation extends React.Component {
+            constructor(props) {
+                super(props);
+                // 상태 변수에 컨트롤 갯수만큼 변수를 추가한다.
+                this.state = {
+                    isGoing: true, // 체크박스 상태
+                    numberOfGuests: 2 // input number
+                };
+                // 핸들러 연결
+                this.handleInputChange = this.handleInputChange.bind(this);
+            }
+            // 값이 변경되었을 때 처리할 함수
+            handleInputChange(event) {
+                const target = event.target; // 이벤트가 발생한 컨트롤
+                const value = target.type === 'checkbox' ? target.checked : target.value; // 체크박스면 현재 상태를 반전
+                const name = target.name; // 이벤트가 발생한 객체의 name 속성값
+
+                this.setState({
+                    // 변수에 있는 값을 key로 쓸 경우.[](대괄호)
+                    [name]: value // 상태 변수값을 변경
+                });
+            }
+
+            render() {
+                return (
+                <form>
+                    <label>
+                        Is going:
+                        <input
+                            name="isGoing"
+                            type="checkbox"
+                            checked={this.state.isGoing}
+                            onChange={this.handleInputChange} />
+                    </label>
+                    <br />
+                    <label>
+                        Number of guests:
+                        <input
+                            name="numberOfGuests"
+                            type="number"
+                            value={this.state.numberOfGuests}
+                            onChange={this.handleInputChange} />
+                    </label>
+                </form>
+                );
+            }
+            }
+
+        ReactDOM.render(
+            <div>
+                <Reservation />
+                <hr />
+            </div>, 
+            document.querySelector('#app')
+        );
+    </script>
+</body>
+</html>
