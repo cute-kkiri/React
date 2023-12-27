@@ -1,0 +1,44 @@
+  npm start
+    Starts the development server.
+
+  // 컴파일해주는
+  npm run build
+    Bundles the app into static files for production.
+
+  // test할 때
+  npm test
+    Starts the test runner.
+
+  // 필요없는 것 삭제
+  npm run eject
+    Removes this tool and copies build dependencies, configuration files
+    and scripts into the app directory. If you do this, you can’t go back!
+
+
+[ package.json ]
+
+// 설치된 것
+"dependencies": {
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "web-vitals": "^2.1.4"
+},
+
+// 스크립트 명령을 실행하는 것
+"scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+},
+
+public폴더에 html
+src폴더에 js
+src에 있는 index.js가 실행 파일.
+
+// build하기
+npm run build

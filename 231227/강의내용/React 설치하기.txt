@@ -1,0 +1,82 @@
+1. nodejs 설치
+   1) https://nodejs.org/en 에서 다운로드
+   2) 설치
+   3) 설치 확인
+      node -v
+
+2. npm 업그레이드
+   npm install -g npm@latest /* 가장 최신 버전 */
+   npm -v
+
+3. create-react-app 설치
+   npm install -g create-react-app
+
+4. react app 만들기
+   https://create-react-app.dev/ 참조
+
+   1) npx create-react-app my-app /* my-app이라는 폴더로 리액트 프로젝트 생성 */
+   2) cd my-app
+   3) npm start
+
+5. 수동으로 react app 만들기1
+   1) md my-app2
+   2) cd my-app2
+   3) npm init -y
+   4) md public
+   5) md src
+   6) public/index.html 만들기
+      ===============================================================================
+	<!DOCTYPE html>
+	<html lang="en">
+	  <head>
+	    <meta charset="utf-8" />
+	    <meta name="viewport" content="width=device-width, initial-scale=1" />
+	    <title>React App</title>
+	  </head>
+	  <body>
+	    <div id="root"></div>
+	  </body>
+	</html>
+      ===============================================================================
+   7) src/index.js 만들기
+      ===============================================================================
+	import React from 'react';
+	import ReactDOM from 'react-dom/client';
+	import App from './App';
+
+	const root = ReactDOM.createRoot(document.getElementById('root'));
+	root.render(
+	  <React.StrictMode>
+	    <App />
+	  </React.StrictMode>
+	);
+      ===============================================================================
+   8) src/App.js 만들기
+      ===============================================================================
+	function App() {
+	  return (
+	    <div>
+			<h1>My React Application!!!</h1>
+	    </div>
+	  );
+	}
+
+	export default App;
+      ===============================================================================
+   9) npm install react /* react 설치 */
+   10) npm install react-dom
+   11) npm install react-scripts
+   12) package.json 파일에 scripts영역을 찾아서 앞부분에 다음을 추가
+       ===============================================================================
+	"start": "react-scripts start",
+	"build": "react-scripts build",
+       ===============================================================================
+   13) npm start를 한다.
+
+
+6. 수동으로 react app 만들기2
+    1) npm init react-app my_app3 /* create-react 했기 때문에 실행됨. npm 초기화 하면서 설치하는 것. 위에서 수동으로 한 것을 자동으로 설치하는 것. */
+
+7. package.json 파일의 역할
+   https://hoya-kim.github.io/2021/09/14/package-json/
+   https://velog.io/@songyouhyun/Package.json%EA%B3%BC-Package-lock.json%EC%9D%98-%EC%B0%A8%EC%9D%B4
