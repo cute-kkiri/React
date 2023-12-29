@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/locale/ko.min.js"></script>
+    <script>
+        let url = "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?";
+        url += "key=f5eef3421c602c6cb7ea224104795888";
+        url += "&targetDt="
+
+        $(function () {
+            const date = moment().subtract(1, 'days').format("YMMDD"); // 어제
+            // console.log(moment().subtract(1, 'days').format('LLLL'));
+            $("#datepicker").val(date);
+            getBoxOffice(date);
+            //input을 datepicker로 선언
+            $("#datepicker").datepicker({
+                dateFormat: 'yymmdd' //Input Display Format 변경
+                ,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] //달력의 월 부분 텍스트
+                ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
+                ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
+                ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
+                ,onSelect:function(date) { // 날짜 선택시 실행할 함수
+                    getBoxOffice(date);
+                    /*
+                    boxOffice(date)
+                    .then(function(data) {
+                        //console.log(JSON.stringify(data.data)); // response 값 출력
+                        data = data.data;
+                        result = data.boxOfficeResult.boxofficeType + "(" + moment($("#datepicker").val(),"YYYYMMDD").format("LL")+")<hr>";
+                        data.boxOfficeResult.dailyBoxOfficeList.forEach(element => {
+                            result += element.rank + ". " + element.movieNm  + '<br>';
+                        });
+                        $("#result").html(result);
+                    }).catch(function(err) {
+                        console.error(err); // Error 출력
+                    });
+                    */
+                }
+            });
+        });
+        // -----------------------------------------------------------------------------------
+        // https://joshua1988.github.io/web-development/javascript/promise-for-beginners/ 참조
+        // 객체가 Promise를 리턴할때 해결 방법
+        
+        // Promise {<pending>} 리턴
+        console.log(boxOffice2(moment().subtract(1, 'days').format("YMMDD")));
+        function boxOffice2(date){
+            return axios.get(url + date);
+        }
+            
+        // Promise {<pending>} 리턴
+        console.log(boxOffice3(moment().subtract(1, 'days').format("YMMDD")));
+        async function boxOffice3(date){
+            return await axios.get(url + date);
+        }
+
+        // 결과 올바르게 출력
+        boxOffice(moment().subtract(1, 'days').format("YMMDD"))
+        .then(function(data) {
+            console.log(JSON.stringify(data.data)); // response 값 출력
+        }).catch(function(err) {
+            console.error(err); // Error 출력
+        });
+        
+        function boxOffice(date){
+            return new Promise(async function(resolve, reject) {
+                await axios.get(url + date).then(function(response) {
+                    // 데이터를 받으면 resolve() 호출
+                    if(response){
+                        resolve(response);
+                    }
+                    reject(new Error("Request is failed")); // 실패하면 처리한다.
+                });
+            });
+        }
+
+        // -----------------------------------------------------------------------------------
+        // 일별 박스오피스 정보를 얻어오는  함수
+        function getBoxOffice(date){
+            urlAddress = url + date; // 주소 완성
+            // console.log(urlAddress);
+            axios.get(urlAddress)
+                        .then(function (response) {
+                            // 성공 핸들링
+                            data = response.data;
+                            result = data.boxOfficeResult.boxofficeType + "(" + moment($("#datepicker").val(),"YYYYMMDD").format("LL")+")<hr>";
+                            data.boxOfficeResult.dailyBoxOfficeList.forEach(element => {
+                                result += element.rank + ". " + element.movieNm  + '<br>';
+                            });
+                            $("#result").html(result);
+                        })
+                        .catch(function (error) {
+                            // 에러 핸들링
+                            console.log(error);
+                        })
+                        .then(function () {
+                            // 항상 실행되는 영역
+                        });
+        }
+    </script>
+    <style>
+        div.box { padding: 10px;border: 1px solid gray;border-radius:20px;margin: 10px;}
+    </style>
+</head>
+
+<body>
+    <div class="box">
+       날짜 선택 : <input type="text" id="datepicker">
+    </div>
+    <div id="result" class="box"></div>
+</body>
+
+</html>

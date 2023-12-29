@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <style>
+        img { margin: 3px; border: 2px dotted red; }
+    </style>
+</head>
+<body>
+    <div id="box"></div>
+
+    <script>
+        axios.get('https://dog.ceo/api/breeds/image/random/100')
+        .then(function (response) {
+            // handle success
+            console.log(response);
+
+            // 실제 data는 data안에 있음.
+            let data = response.data.message;
+            console.log(data);
+            let result = '';
+            data.map((item, index) => {
+                result += '<img src="' + item + '" width="400" height="400" />';
+            });
+            document.querySelector('#box').innerHTML = result;
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+        })
+        .finally(function () {
+            // always executed
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #result1, #result2 {
+            border: 1px solid gray;padding : 10px; height: 50px;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        const url ='https://api.thecatapi.com/v1/images/search';
+        // GET
+        async function getCat1() { 
+            const response = await axios.get(url);
+            console.log(response.data);
+            $("#result1").html(response.data);
+        }
+        function getCat2() { 
+            axios.get(url)
+                .then(function (response) {
+                    // 성공 핸들링
+                    console.log(response.data);
+                    $("#result2").html(JSON.stringify(response.data));
+                })
+                .catch(function (error) {
+                    // 에러 핸들링
+                    console.log(error);
+                })
+                .finally(function () {
+                    // 항상 실행되는 영역
+                });
+        }
+
+        $(function(){
+            getCat1();
+            getCat2();
+        });
+    </script>
+</head>
+<body>
+    <div id="result1"></div>
+    <br>
+    <div id="result2"></div>
+</body>
+</html>
